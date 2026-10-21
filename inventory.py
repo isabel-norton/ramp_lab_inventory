@@ -136,22 +136,23 @@ class Store:
                 return
             db.execute("INSERT OR REPLACE INTO metadata VALUES ('demo','1')")
             db.executemany("INSERT INTO cabinets VALUES (?,?,?,?)", [
-                ("cab-01", "Cabinet A", "Main lab · West wall", "Buffers & everyday solutions"),
-                ("cab-02", "Cabinet B", "Prep room · Bench 2", "Solvents & cleaning solutions"),
-                ("cab-03", "Cold storage", "Main lab · Refrigerator", "Temperature-sensitive reagents"),
+                ("cab-01", "Acid Storage 1", "Right side", "Acids"),
+                ("cab-02", "Flammable 1", "Right side", "Flammable"),
+                ("cab-03", "Acid Storage 2", "Left Side", "Acids"),
+                ("cab-04", "Flammable 2", "Left Side", "Flammable"),
             ])
-            for cabinet, name, detail, qty, threshold, target in [
-                ("cab-01", "PBS buffer", "1× · pH 7.4", 750, 200, 1000),
-                ("cab-01", "Tris-HCl", "1 M · pH 8.0", 120, 150, 500),
-                ("cab-01", "EDTA", "0.5 M · pH 8.0", 400, 100, 500),
-                ("cab-01", "Sodium chloride", "5 M stock", 300, 100, 500),
-                ("cab-02", "Ethanol", "70% · cleaning stock", 600, 250, 1000),
-                ("cab-02", "Isopropanol", "99% stock", 85, 100, 500),
-                ("cab-03", "BSA solution", "10% stock", 45, 20, 100),
-            ]:
-                cur = db.execute("INSERT INTO items(cabinet_id,name,detail,unit,quantity,threshold,target) VALUES (?,?,?,'mL',?,?,?)",
-                                 (cabinet, name, detail, qty*SCALE, threshold*SCALE, target*SCALE))
-                self._sync_low(db, cur.lastrowid)
+            # for cabinet, name, detail, qty, threshold, target in [
+            #     ("cab-01", "PBS buffer", "1× · pH 7.4", 750, 200, 1000),
+            #     ("cab-01", "Tris-HCl", "1 M · pH 8.0", 120, 150, 500),
+            #     ("cab-01", "EDTA", "0.5 M · pH 8.0", 400, 100, 500),
+            #     ("cab-01", "Sodium chloride", "5 M stock", 300, 100, 500),
+            #     ("cab-02", "Ethanol", "70% · cleaning stock", 600, 250, 1000),
+            #     ("cab-02", "Isopropanol", "99% stock", 85, 100, 500),
+            #     ("cab-03", "BSA solution", "10% stock", 45, 20, 100),
+            # ]:
+            #     cur = db.execute("INSERT INTO items(cabinet_id,name,detail,unit,quantity,threshold,target) VALUES (?,?,?,'mL',?,?,?)",
+            #                      (cabinet, name, detail, qty*SCALE, threshold*SCALE, target*SCALE))
+            #     self._sync_low(db, cur.lastrowid)
 
     def cabinets(self):
         return self.rows("""SELECT c.*, COUNT(i.id) AS item_count,
