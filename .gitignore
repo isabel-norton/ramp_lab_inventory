@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.streamlit/secrets.toml
+.env
+data/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm

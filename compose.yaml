@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    env_file: .env
+    environment:
+      LAB_DB_PATH: /data/inventory.sqlite3
+    volumes:
+      - inventory-data:/data
+    restart: unless-stopped
+  email-worker:
+    build: .
+    command: ["python", "worker.py"]
+    healthcheck:
+      disable: true
+    env_file: .env
+    environment:
+      LAB_DB_PATH: /data/inventory.sqlite3
+    volumes:
+      - inventory-data:/data
+    restart: unless-stopped
+volumes:
+  inventory-data:
