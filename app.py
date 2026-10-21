@@ -21,50 +21,441 @@ st.set_page_config(page_title="Lab Inventory", page_icon="🧪", layout="wide", 
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-:root { --forest:#214f42; --muted:#68766c; }
-html,body,[class*="css"],.stApp {font-family:'DM Sans',sans-serif;}
-.stApp {background:#f7f8f4;}
-h1,h2,h3 {font-family:'Manrope',sans-serif!important;letter-spacing:-.045em!important;}
-h1 {font-weight:800!important;font-size:2.65rem!important;line-height:1.13!important;}
-h2 {font-size:1.6rem!important;}h3 {font-size:1.15rem!important;}
-.block-container {max-width:1290px;padding-top:2.4rem;padding-bottom:3rem;}
-[data-testid="stSidebar"] {background:#edf1e9;border-right:1px solid #dce3d7;}
-[data-testid="stSidebar"] .block-container {padding-top:2rem;}
-[data-testid="stMetric"] {background:#fff;border:1px solid #e1e7dc;border-radius:14px;padding:17px 20px;}
-[data-testid="stMetricLabel"] {color:#6a776d;font-size:.78rem;}
-[data-testid="stMetricValue"] {font-family:'Manrope',sans-serif;font-size:1.9rem;}
-[data-testid="stVerticalBlockBorderWrapper"]>div {border-color:#e0e6db!important;border-radius:15px!important;}
-.eyebrow {font-size:.72rem;font-weight:700;letter-spacing:.17em;color:#6a7b69;margin:0 0 12px;}
-.brand {font-family:'Manrope',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-.04em;margin:0 0 4px;}
-.brand-icon {display:inline-block;background:#214f42;color:white;border-radius:10px;padding:5px 11px;margin-right:8px;font-size:22px;}
-.hero {background:#e8eee1;border:1px solid #dce5d3;padding:27px 30px;border-radius:18px;margin-bottom:25px;}
-.hero h1 {margin:0 0 14px;max-width:650px;color:#234d3e;}
-.hero p {color:#64715f;font-size:.98rem;margin:0;max-width:650px;line-height:1.6;}
-.hero .eyebrow {font-size:.68rem;margin-bottom:12px;color:#61785a;}
-.steps {font-size:.73rem;letter-spacing:.04em;color:#64715f;margin-top:25px;display:flex;gap:22px;flex-wrap:wrap;}
-.steps b {color:#214f42;margin-right:6px;}
-.stock-row {background:white;border:1px solid #e1e7dc;border-radius:12px;padding:18px 19px;margin-bottom:10px;}
-.stock-top {display:flex;align-items:start;justify-content:space-between;gap:12px;}
-.stock-title {font-weight:700;font-size:1rem;color:#243b2e;}
-.stock-detail {font-size:.78rem;color:#7a8479;margin-top:3px;}
-.stock-amount {font-family:'Manrope',sans-serif;font-size:1.4rem;font-weight:800;color:#214f42;margin-top:12px;letter-spacing:-.03em;}
-.stock-amount small {font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;color:#798275;}
-.stock-track {height:5px;background:#edf1e9;border-radius:6px;margin:12px 0 8px;overflow:hidden;}
-.stock-track div {height:100%;border-radius:6px;background:#6a8e69;}
-.stock-foot {font-size:.7rem;color:#879081;}
-.badge {display:inline-block;border-radius:30px;background:#eaf2e5;color:#4e7043;font-size:.65rem;font-weight:700;padding:4px 9px;white-space:nowrap;}
-.badge.low {background:#fff0da;color:#a46413;}
-.badge.empty {background:#fbe8e1;color:#a34230;}
-.cabinet-icon {font-size:1.3rem;color:#6c8563;background:#e9efdf;padding:9px 13px;display:inline-block;border-radius:10px;margin-bottom:10px;}
-.footer {font-size:.7rem;color:#8a9386;margin-top:30px;padding-top:15px;border-top:1px solid #e3e8de;}
-.stButton button,.stFormSubmitButton button,.stDownloadButton button {border-radius:9px;min-height:44px;}
-[data-testid="stForm"] {background:white;border-radius:15px;border-color:#dbe4d4;padding:21px;}
-[data-testid="stRadio"] label {font-size:.9rem;}
-@media(max-width:640px){.block-container{padding:1.4rem 1rem 2rem;}h1{font-size:2rem!important;}.hero{padding:24px 20px;}.steps{gap:12px;font-size:.65rem;}[data-testid="stMetric"]{padding:12px;}[data-testid="stMetricValue"]{font-size:1.5rem;}
-[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]){flex-wrap:nowrap!important;gap:.5rem!important;}
-[data-testid="stHorizontalBlock"]:has([data-testid="stMetric"])>[data-testid="stColumn"]{min-width:0!important;flex:1 1 0!important;width:0!important;}}
+
+:root {
+    --forest: #214f42;
+    --muted: #46574b;
+    --text: #24352a;
+    --secondary: #4f5e52;
+    --border: #d5dfd1;
+}
+
+html, body, [class*="css"], .stApp {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+}
+
+.stApp {
+    background: #f7f8f4;
+    color: var(--text);
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-family: 'Manrope', sans-serif !important;
+    letter-spacing: -.045em !important;
+    color: #243b2e !important;
+}
+
+h1 {
+    font-weight: 800 !important;
+    font-size: 2.65rem !important;
+    line-height: 1.13 !important;
+}
+
+h2 { font-size: 1.6rem !important; }
+h3 { font-size: 1.15rem !important; }
+
+.block-container {
+    max-width: 1290px;
+    padding-top: 2.4rem;
+    padding-bottom: 3rem;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: #edf1e9;
+    border-right: 1px solid #dce3d7;
+    color: #24352a;
+}
+
+[data-testid="stSidebar"] .block-container {
+    padding-top: 2rem;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] li,
+[data-testid="stSidebar"] small {
+    color: #34483a;
+}
+
+/* Metrics */
+[data-testid="stMetric"] {
+    background: #fff;
+    border: 1px solid #e1e7dc;
+    border-radius: 14px;
+    padding: 17px 20px;
+    color: #24352a;
+}
+
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] p {
+    color: #46574b !important;
+    font-size: .78rem;
+}
+
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] div {
+    font-family: 'Manrope', sans-serif;
+    color: #214f42 !important;
+    font-size: 1.9rem;
+}
+
+[data-testid="stMetricDelta"] {
+    color: #46574b !important;
+}
+
+/* Containers */
+[data-testid="stVerticalBlockBorderWrapper"] > div {
+    border-color: #d5dfd1 !important;
+    border-radius: 15px !important;
+}
+
+/* General text and captions */
+p, li, label, .stMarkdown, .stCaption, small {
+    color: #34483a;
+}
+
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] p {
+    color: #4f5e52 !important;
+}
+
+.eyebrow {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .17em;
+    color: #465b46;
+    margin: 0 0 12px;
+}
+
+.brand {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    margin: 0 0 4px;
+    color: #243b2e;
+}
+
+.brand-icon {
+    display: inline-block;
+    background: #214f42;
+    color: #fff !important;
+    border-radius: 10px;
+    padding: 5px 11px;
+    margin-right: 8px;
+    font-size: 22px;
+}
+
+/* Hero section */
+.hero {
+    background: #e8eee1;
+    border: 1px solid #dce5d3;
+    padding: 27px 30px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    margin: 0 0 14px;
+    max-width: 650px;
+    color: #234d3e !important;
+}
+
+.hero p {
+    color: #46574b !important;
+    font-size: .98rem;
+    margin: 0;
+    max-width: 650px;
+    line-height: 1.6;
+}
+
+.hero .eyebrow {
+    font-size: .68rem;
+    margin-bottom: 12px;
+    color: #465b46;
+}
+
+.steps {
+    font-size: .73rem;
+    letter-spacing: .04em;
+    color: #46574b;
+    margin-top: 25px;
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.steps b {
+    color: #214f42;
+    margin-right: 6px;
+}
+
+/* Chemical stock cards */
+.stock-row {
+    background: #fff;
+    border: 1px solid #d5dfd1;
+    border-radius: 12px;
+    padding: 18px 19px;
+    margin-bottom: 10px;
+}
+
+.stock-top {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.stock-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #243b2e;
+}
+
+.stock-detail {
+    font-size: .78rem;
+    color: #4f5e52;
+    margin-top: 3px;
+}
+
+.stock-amount {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #214f42;
+    margin-top: 12px;
+    letter-spacing: -.03em;
+}
+
+.stock-amount small {
+    font-family: 'DM Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 500;
+    color: #4f5e52;
+}
+
+.stock-track {
+    height: 5px;
+    background: #edf1e9;
+    border-radius: 6px;
+    margin: 12px 0 8px;
+    overflow: hidden;
+}
+
+.stock-track div {
+    height: 100%;
+    border-radius: 6px;
+    background: #6a8e69;
+}
+
+.stock-foot {
+    font-size: .7rem;
+    color: #4f5e52;
+}
+
+/* Status badges */
+.badge {
+    display: inline-block;
+    border-radius: 30px;
+    background: #eaf2e5;
+    color: #35572f !important;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 4px 9px;
+    white-space: nowrap;
+}
+
+.badge.low {
+    background: #fff0da;
+    color: #824700 !important;
+}
+
+.badge.empty {
+    background: #fbe8e1;
+    color: #8c2e20 !important;
+}
+
+/* Cabinet and footer */
+.cabinet-icon {
+    font-size: 1.3rem;
+    color: #36543a;
+    background: #e9efdf;
+    padding: 9px 13px;
+    display: inline-block;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    font-size: .7rem;
+    color: #4f5e52;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #d5dfd1;
+}
+
+/* Buttons */
+.stButton button,
+.stFormSubmitButton button,
+.stDownloadButton button {
+    border-radius: 9px;
+    min-height: 44px;
+    color: #fff;
+    background: #214f42;
+    border: 1px solid #214f42;
+    font-weight: 600;
+}
+
+.stButton button p,
+.stFormSubmitButton button p,
+.stDownloadButton button p {
+    color: inherit !important;
+}
+
+.stButton button:hover,
+.stFormSubmitButton button:hover,
+.stDownloadButton button:hover {
+    background: #173c31;
+    border-color: #173c31;
+    color: #fff;
+}
+
+/* Forms and inputs */
+[data-testid="stForm"] {
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #d5dfd1;
+    padding: 21px;
+}
+
+/* Input labels */
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label,
+.stTextInput label,
+.stNumberInput label,
+.stSelectbox label,
+.stMultiSelect label,
+.stTextArea label,
+.stDateInput label,
+.stTimeInput label,
+.stRadio label,
+.stCheckbox label,
+.stSlider label {
+    color: #34483a !important;
+}
+
+/* Typed text */
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stTimeInput input {
+    color: #24352a !important;
+    background: #fff !important;
+    -webkit-text-fill-color: #24352a !important;
+    border-color: #b8c7b5 !important;
+}
+
+/* Select boxes and dropdowns */
+[data-testid="stSelectbox"] [data-baseweb="select"],
+[data-testid="stMultiSelect"] [data-baseweb="select"] {
+    background: #fff !important;
+    border-color: #b8c7b5 !important;
+}
+
+[data-testid="stSelectbox"] [data-baseweb="select"] *,
+[data-testid="stMultiSelect"] [data-baseweb="select"] * {
+    color: #24352a !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[data-baseweb="select"] ul,
+[role="listbox"],
+[role="option"] {
+    background-color: #fff !important;
+    color: #24352a !important;
+}
+
+[role="option"] *,
+[role="listbox"] * {
+    color: #24352a !important;
+}
+
+/* Radio buttons and checkboxes */
+[data-testid="stRadio"] label,
+[data-testid="stCheckbox"] label {
+    color: #34483a !important;
+    font-size: .9rem;
+}
+
+[data-testid="stRadio"] p,
+[data-testid="stCheckbox"] p {
+    color: #34483a !important;
+}
+
+/* Placeholders */
+input::placeholder,
+textarea::placeholder {
+    color: #667469 !important;
+    -webkit-text-fill-color: #667469 !important;
+    opacity: 1 !important;
+}
+
+/* Links */
+a {
+    color: #215b48;
+}
+
+a:hover {
+    color: #143c2f;
+}
+
+/* Mobile layout */
+@media(max-width:640px) {
+    .block-container {
+        padding: 1.4rem 1rem 2rem;
+    }
+
+    h1 {
+        font-size: 2rem !important;
+    }
+
+    .hero {
+        padding: 24px 20px;
+    }
+
+    .steps {
+        gap: 12px;
+        font-size: .65rem;
+    }
+
+    [data-testid="stMetric"] {
+        padding: 12px;
+    }
+
+    [data-testid="stMetricValue"] {
+        font-size: 1.5rem;
+    }
+
+    [data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) {
+        flex-wrap: nowrap !important;
+        gap: .5rem !important;
+    }
+
+    [data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > [data-testid="stColumn"] {
+        min-width: 0 !important;
+        flex: 1 1 0 !important;
+        width: 0 !important;
+    }
+}
 </style>
 """
+
 st.markdown(CSS, unsafe_allow_html=True)
 
 
